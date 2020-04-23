@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 import './index.css';
+
 
 const Button = ({ onClick, text }) => (
   <button onClick={onClick}>
