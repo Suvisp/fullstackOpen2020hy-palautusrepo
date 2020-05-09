@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import peopleService from './services/restclient'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PeopleList from './components/PeopleList'
-import peopleService from './services/restclient'
+import Notification from './components/Notification'
 
 const App = () => {
   const [people, setPeople] = useState([])
@@ -11,10 +12,12 @@ const App = () => {
   const [newPeople, setNewPeople] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     console.log('effect')
     peopleService
+    //GET
       .getAll()
       .then(initialPeople => {
         setPeople(initialPeople)
@@ -24,39 +27,33 @@ const App = () => {
 
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
-  const handleChange = (event) => setSearchTerm(event.target.value)
-
-  //lisää henkilö
-  // const addPerson = () => {
-  //   //ilmoittaa, jos nimi on jo listalla ja estää lisäyksen
-  //   if (people.find(({ name }) => name === newName)) { alert(`${newName} is already added to the phonebook, replace it with a new one?`) }
-  //   else
-  //     setPeople([...people, { name: newName, number: newNumber }]);
-  //   setNewName('');
-  //   setNewName('');
-  // }
+  const handleFilter = (event) => setSearchTerm(event.target.value)
 
   const addPerson = (event) => {
     event.preventDefault()
-    //ilmoittaa, jos nimi on jo listalla ja kysyy halutaankp puhelinnumero muuttaa?
+    //ilmoittaa, jos nimi on jo listalla ja kysyy halutaanko puhelinnumero muuttaa?
     if (people.find(({ name }) => name === newName)) {
-      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
-        window.open("http://localhost:3000", "Phonenumber changed");
-        const id_updateNumber = people.find(({ name }) => name === newName).id
+      if (window.confirm(`${newName} is already in phonebook, replace the old number with a new one?`)) {
+        const id = people.find(({ name }) => name === newName).id
         const personObject = {
           name: newName,
           number: newNumber,
         }
         peopleService
-          .updateOne(id_updateNumber, personObject)
+        //PUT - update number
+          .updateOne(id, personObject)
           .then(returnedPerson => {
-            setNewPeople(people.map(p => p.id_updateNumber !== id_updateNumber ? p : returnedPerson))
+            // setPeople(people.filter(p => p.id_updateNumber !== id_updateNumber))
+            setPeople(people.map(p => p.id !== id ? p : returnedPerson))
+            setNotification(
+              `The number of '${personObject.name}' has been updated`
+            )
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000)
           })
           .catch(error => {
-            alert(
-              `the note '${people.name}' was already deleted from server`
-            )
-            setPeople(people.filter(p => p.id_updateNumber !== id_updateNumber))
+            alert(`Data of '${personObject.name}' has already been removed from server`)
           })
       }
     } else {
@@ -66,30 +63,47 @@ const App = () => {
         id: people.length + 1,
       }
       peopleService
+      //POST
         .createOne(personObject)
         .then(updatedPeople => {
           setPeople(people.concat(updatedPeople))
           setNewPeople('')
+          setNotification(
+            `'${personObject.name}' added to phonebook`
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
     }
   }
 
   const removePerson = (id) => {
-    peopleService
-      .deleteOne(id)
-      .then(returnedPeople => {
-        console.log(returnedPeople)
-        setNewPeople(people.concat(returnedPeople))
-        // setPeople()
-      })
+    const deleteId = people.filter(person => person.id === id)
+    if (deleteId.length === 1) {
+      if (window.confirm(`Do you want to delete ${deleteId[0].name}?`)) {
+        peopleService
+        //DELETE
+          .deleteOne(id)
+          .then(returnedPeople => {
+            console.log('returnedPeople', returnedPeople)
+            setPeople(people.filter(person => person.id !== id))
+            // setNewPeople(people.concat(returnedPeople))
+            setNotification(`'${deleteId[0].name}' deleted from phonebook`)
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000)
+          })
+      }
+    }
   }
 
-  //filteröi nimet, sisältää annetun kirjaimen tai nimen
+  //FILTER - filteröi nimet, sisältää annetun kirjaimen/nimen
   useEffect(() => {
     const results = !searchTerm
       ? people
       : people.filter(person =>
-        person.name.toLowerCase().includes(searchTerm)
+        person.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     setSearchResults(results);
   }, [searchTerm]);
@@ -97,9 +111,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter
         searchTerm={searchTerm}
-        onChange={handleChange}
+        onChange={handleFilter}
         searchResults={searchResults}
       />
       <h2>add a new</h2>
@@ -109,9 +124,8 @@ const App = () => {
         number={newNumber}
         numberChange={handleNumberChange}
       />
-      {/* <div>debug: {newName} {newNumber}</div> */}
       <h2>Numbers</h2>
-      <PeopleList people={people} removePerson={removePerson} />
+      <PeopleList people={people} removePerson={removePerson} setNotification={setNotification} />
     </div>
   )
 }
