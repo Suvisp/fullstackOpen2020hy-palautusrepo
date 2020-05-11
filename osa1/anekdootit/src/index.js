@@ -12,7 +12,7 @@ const Button = ({ onClick, text }) => (
 const Display = (props) => {
   return (
     <div>
-      <h1>{props.header}</h1>
+      <h2>{props.header}</h2>
       <p>{props.text}</p>
       <p>has {props.votes} votes</p>
     </div>
@@ -34,14 +34,14 @@ const App = (props) => {
     setSelected(randomAnecdote)
   }
 
-  const indexOfMostVoted = points.indexOf(Math.max.apply(null, votes))
+  const indexOfMostVoted = points.indexOf(Math.max.apply(null, points))
 
   return (
     <div>
       <Display header="Anecdote of the day" text={props.anecdotes[selected]}
-        votes={votes[selected]} />
-      <Button text="vote" onClick={handleVote} />
-      <Button text="next anecdote" onClick={nextAnecdote} />
+        votes={points[selected]} />
+      <Button onClick={handleVote} text='vote' />
+      <Button onClick={nextAnecdote} text='next anecdote' />
       <Display header="Anecdote with most votes" text={props.anecdotes[indexOfMostVoted]}
         votes={points[indexOfMostVoted]} />
     </div>
