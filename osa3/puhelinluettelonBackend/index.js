@@ -30,6 +30,15 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
+app.get('/info', (req, res) => {
+  let numberOfPersons = persons.length
+  let timeNow = new Date()
+  console.log(persons.length)
+  res.send(`<p>Phonebook has info for ${numberOfPersons} people</p><br><p>${timeNow}</p>`)
+})
+
+
+
 //GET ALL
 app.get('/api/persons', (req, res) => {
   res.json(persons)
@@ -43,16 +52,23 @@ app.get('/api/persons/:id', (request, response) => {
   if (person) {
     response.json(person)
   } else {
-    response.status(404).end()
+    return response.status(400).json({ 
+      error: 'person missing' 
+    })
   }
 })
 
 //POST
+// const generateId = () => {
+//   const maxId = persons.length > 0
+//     ? Math.max(...persons.map(p => p.id))
+//     : 0
+//   return maxId + 1
+// }
+//Math ramdomilla id:
 const generateId = () => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(p => p.id))
-    : 0
-  return maxId + 1
+  const id = Math.floor(Math.random() * 100)
+  return id
 }
 
 app.post('/api/persons', (request, response) => {
@@ -62,7 +78,15 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({ 
       error: 'name missing' 
     })
-  }
+  } if (!body.number) {
+    return response.status(400).json({ 
+      error: 'number missing' 
+    })
+  } if (persons.find(({ name }) => name === body.name)) {
+  return response.status(400).json({ 
+    error: 'name must be unique' 
+  })
+}
 
   const newPerson = {
     name: body.name,
