@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd C:/suvi_koodit/HYfullstackOpen2020/fullstackOpen2020hy-palautusrepo/osa2/puhelinluettelo && npm run build --prod && cp -r build C:/suvi_koodit/HYfullstackOpen2020/fullstackOpen2020hy-palautusrepo/osa3/puhelinluettelonBackend/",
     "deploy": "git push heroku master",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",    
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
   "author": "suvi partanen",
@@ -18,6 +18,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongoose": "^5.9.14",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
