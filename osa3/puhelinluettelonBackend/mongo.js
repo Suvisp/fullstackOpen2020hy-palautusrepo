@@ -35,7 +35,7 @@ if (process.argv.length == 4) {
     process.exit(1)
 } 
 
-//Kun syöttää yli neljä komentoriviparametriä "node mongo.js salasana nimi numero" tallentaa uuden henkilön tiedot puhelinluetteloon
+//Kun syöttää yli neljä komentoriviparametriä "node mongo.js salasana nimi numero" --> tallentaa uuden henkilön tiedot puhelinluetteloon
 if (process.argv.length > 4) {
 person.save().then(response => {
     console.log(`added ${nameN} number ${numberN} to phonebook`)
@@ -43,14 +43,12 @@ person.save().then(response => {
 })
 }
 
-//Kun syöttää kolme komentoriviparametriä node mongo.js salasana
+//Kun syöttää kolme komentoriviparametriä node mongo.js salasana --> etsii ja näyttää konsolissa tallennetun datan
 if (process.argv.length == 3) {
-// //etsii ja näyttää konsolissa tallennetun datan
+console.log(`phonebook:`)
 Person.find({}).then(result => {
   result.forEach(p => {
-    // `p.name + ' ' + p.number`
-    console.log(`phonebook: ${p.name} ${p.number}`)
-    // console.log('phonebook: ' + `p.name + ' ' + p.number`)
+    console.log(`${p.name} ${p.number}`)
 })
   mongoose.connection.close()
 })
