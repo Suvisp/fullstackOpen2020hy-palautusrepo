@@ -2,72 +2,27 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Person = require('./models/person')
-require('dotenv').config() 
-
-app.use(express.json())
+require('dotenv').config()
 
 app.use(cors())
-
+app.use(express.json())
 //näyttää staattisia JavaScript tiedostoja, CSS tiedostoja ja kuvia yms - Express kirjaston middleware
 app.use(express.static('build'))
 
-// // app.use(morgan('tiny'))
-// app.use(bodyParser.json())
-
-// morgan.token('reqbody', function (req, res) {
-//   // console.log(req.body)
-//   return JSON.stringify(req.body)
-//  })
-
-// app.use(
-//   morgan(function (tokens, req, res) {
-//     return [
-//       tokens.method(req, res),
-//       tokens.url(req, res),
-//       tokens.status(req, res),
-//       tokens.res(req, res, 'content-length'), '-',
-//       tokens['response-time'](req, res), 'ms',
-//       tokens.reqbody(req, res),
-//     ].join(' ')
-//   })
-// )
-
-// app.use(express.json())
-
-let persons = [
-      {
-        "name": "Arto Hellas",
-        "number": "040-1234567",
-        "id": 1
-      },
-      {
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523",
-        "id": 2
-      },
-      {
-        "name": "Dan Abramov",
-        "number": "12-43-234345",
-        "id": 3
-      },
-      {
-        "name": "Mary Poppendieck",
-        "number": "050-1234567",
-        "id": 4
-      }
-    ]
-
-// app.get('/info', (req, res) => {
-//   let numberOfPersons = persons.length
-//   let timeNow = new Date()
-//   console.log(persons.length)
-//   res.send(`<p>Phonebook has info for ${numberOfPersons} people</p><br><p>${timeNow}</p>`)
-// })
+//GET info
+app.get('/info', (req, response) => {
+  Person.countDocuments({}).then(total => {
+    if (total) {
+      console.log(total)
+      let timeNow = new Date()
+      response.send(`Phonebook has info for ${total} people ${timeNow}`)
+    } else {
+      response.status(404).end()
+    }
+  })
+})
 
 //GET ALL
-// app.get('/api/persons', (req, res) => {
-//   res.json(persons)
-// })
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons.map(person => person.toJSON()))
@@ -75,64 +30,21 @@ app.get('/api/persons', (request, response) => {
 })
 
 //GET ONE
-// app.get('/api/persons/:id', (request, response) => {
-//   const id = Number(request.params.id)
-//   const person = persons.find(p => p.id === id)
-
-//   if (person) {
-//     response.json(person)
-//   } else {
-//     return response.status(400).json({ 
-//       error: 'person missing' 
-//     })
-//   }
-// })
-app.get('/api/persons/:id', (request, response) => {
-  Person.findById(request.params.id).then(person => {
-    response.json(person.toJSON())
-  })
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        //jos kannasta ei löydy haettua oliota virheilmoitus -->
+        response.status(404).end()
+      }
+    })
+    //jos id ei ole hyväksyttävässä muodossa virheilmoitus -->
+    .catch(error => next(error))
 })
 
 //POST
-// const generateId = () => {
-//   const maxId = persons.length > 0
-//     ? Math.max(...persons.map(p => p.id))
-//     : 0
-//   return maxId + 1
-// }
-//Math ramdomilla id:
-const generateId = () => {
-  const id = Math.floor(Math.random() * 100)
-  return id
-}
-
-// app.post('/api/persons', (request, response) => {
-//   const body = request.body
-
-//   if (!body.name) {
-//     return response.status(400).json({ 
-//       error: 'name missing' 
-//     })
-//   } if (!body.number) {
-//     return response.status(400).json({ 
-//       error: 'number missing' 
-//     })
-//   } if (persons.find(({ name }) => name === body.name)) {
-//   return response.status(400).json({ 
-//     error: 'name must be unique' 
-//   })
-// }
-
-//   const newPerson = {
-//     name: body.name,
-//     number: body.number,
-//     id: generateId(),
-//   }
-
-//   persons = persons.concat(newPerson)
-
-//   response.json(newPerson)
-// })
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
@@ -151,12 +63,6 @@ app.post('/api/persons', (request, response) => {
 })
 
 //DELETE
-// app.delete('/api/persons/:id', (request, response) => {
-//   const id = Number(request.params.id)
-//   persons = persons.filter(p => p.id !== id)
-
-//   response.status(204).end()
-// })
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
     .then(result => {
@@ -164,6 +70,34 @@ app.delete('/api/persons/:id', (request, response, next) => {
     })
     .catch(error => next(error))
 })
+
+//PUT
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 
