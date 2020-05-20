@@ -75,6 +75,11 @@ const App = () => {
             setNotification(null)
           }, 5000)
         })
+        .catch(error => { 
+          // pääset käsiksi palvelimen palauttamaan virheilmoitusolioon näin
+          console.log(error.response.data)
+          setNotification(error.response.data.error)
+        })
     }
   }
 
