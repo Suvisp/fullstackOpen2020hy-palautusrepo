@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 if (process.argv.length < 3) {
     console.log('give password as argument')
     process.exit(1)
-} 
+}
 
 const password = process.argv[2]
 const nameN = process.argv[3]
@@ -30,26 +30,27 @@ const person = new Person({
 })
 
 //Kun syöttää neljä komentoriviparametriä node mongo.js salasana nimi tai numero --> herjaa että tulee olla sekä nimi että numero
-if (process.argv.length == 4) {
+if (process.argv.length === 4) {
     console.log('give password, name and number as argument')
     process.exit(1)
-} 
+}
 
 //Kun syöttää yli neljä komentoriviparametriä "node mongo.js salasana nimi numero" --> tallentaa uuden henkilön tiedot puhelinluetteloon
 if (process.argv.length > 4) {
-person.save().then(response => {
-    console.log(`added ${nameN} number ${numberN} to phonebook`)
-    mongoose.connection.close()
-})
+    // person.save().then(response => {
+    person.save().then(() => {
+        console.log(`added ${nameN} number ${numberN} to phonebook`)
+        mongoose.connection.close()
+    })
 }
 
 //Kun syöttää kolme komentoriviparametriä node mongo.js salasana --> etsii ja näyttää konsolissa tallennetun datan
-if (process.argv.length == 3) {
-console.log(`phonebook:`)
-Person.find({}).then(result => {
-  result.forEach(p => {
-    console.log(`${p.name} ${p.number}`)
-})
-  mongoose.connection.close()
-})
+if (process.argv.length === 3) {
+    console.log('phonebook:')
+    Person.find({}).then(result => {
+        result.forEach(p => {
+            console.log(`${p.name} ${p.number}`)
+        })
+        mongoose.connection.close()
+    })
 }
