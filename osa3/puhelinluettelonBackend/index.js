@@ -45,23 +45,6 @@ app.get('/api/persons/:id', (request, response, next) => {
 })
 
 //POST
-<<<<<<< Updated upstream
-app.post('/api/persons', (request, response) => {
-  const body = request.body
-
-  if (body.name === undefined) {
-    return response.status(400).json({ error: 'name missing' })
-  }
-
-  const person = new Person({
-    name: body.name,
-    number: body.number
-  })
-
-  person.save().then(savedPerson => {
-    response.json(savedPerson.toJSON())
-  })
-=======
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
@@ -80,7 +63,6 @@ app.post('/api/persons', (request, response, next) => {
             response.json(savedAndFormattedPerson)
         })
         .catch(error => next(error))
->>>>>>> Stashed changes
 })
 
 //DELETE
@@ -111,17 +93,11 @@ app.put('/api/persons/:id', (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
 
-<<<<<<< Updated upstream
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
-    return response.status(400).send({ error: 'malformatted id' })
-  }
-=======
     if (error.name === 'CastError' && error.kind === 'ObjectId') {
         return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
         return response.status(400).json({ error: error.message })
     }
->>>>>>> Stashed changes
 
     next(error)
 }

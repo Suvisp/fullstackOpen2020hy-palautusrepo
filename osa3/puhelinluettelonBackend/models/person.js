@@ -1,10 +1,7 @@
 const mongoose = require('mongoose')
-<<<<<<< Updated upstream
-=======
-var uniqueValidator = require('mongoose-unique-validator')
->>>>>>> Stashed changes
+var uniqueValidator = require('mongoose-unique-validator');
 mongoose.set('useFindAndModify', false)
-require('dotenv').config() 
+require('dotenv').config()
 
 const url = process.env.MONGODB_URI
 
@@ -20,12 +17,6 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
 const personSchema = new mongoose.Schema({
-<<<<<<< Updated upstream
-    name: String,
-    number: Number,
-})
-
-=======
     name: {
         type: String,
         minlength: 3,
@@ -41,9 +32,8 @@ const personSchema = new mongoose.Schema({
 
 // Apply the uniqueValidator plugin to userSchema.
 // personSchema.plugin(uniqueValidator);
-personSchema.plugin(uniqueValidator, { type: 'mongoose-unique-validator' })
+personSchema.plugin(uniqueValidator, { type: 'mongoose-unique-validator' });
 
->>>>>>> Stashed changes
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
