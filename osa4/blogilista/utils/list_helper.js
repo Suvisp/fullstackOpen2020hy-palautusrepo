@@ -17,19 +17,27 @@ const totalLikes = (blog) => {
 }
 
 const favouriteBlog = (blogs) => {
-    mostLiked = blogs.reduce(function (prev, current) {
-        if (prev.likes > current.likes) {
-            return prev
-        } else {
-            return current
-        }
-    })
-    console.log(mostLiked)
-    return mostLiked.likes
-  }
+  mostLikes = blogs.reduce(function (prev, current) {
+    if (prev.likes > current.likes) {
+      return prev
+    } else {
+      return current
+    }
+  })
+  console.log(mostLikes)
+  return mostLikes.likes
+}
+
+const mostBlogs = (blogs) => {
+  var _ = require('lodash');
+  authorWithMostBlogs = (_(blogs).countBy('author').entries().max())
+  console.log({ author: authorWithMostBlogs[0], blogs: authorWithMostBlogs[1] })
+  return authorWithMostBlogs[1]
+}
 
 module.exports = {
   dummy,
   totalLikes,
-  favouriteBlog
+  favouriteBlog,
+  mostBlogs
 }
