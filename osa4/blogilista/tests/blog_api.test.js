@@ -42,7 +42,8 @@ test('a valid blog can be added ', async () => {
       title: 'Koodi tutoriaalit',
       author: 'koodiguru',
       url: 'www.koodiguruntutoriaalit.fi',
-      likes: 1
+      likes: 1,
+      user: '5ed8c9147f3c592a6cfbbe53'
     }
   
     await api
@@ -64,7 +65,8 @@ test('a valid blog can be added ', async () => {
     const newBlog = {
       title: 'Rasvatonsokeritonmautondieetti',
       author: 'Dieettihemmo',
-      url: 'www.hemmondieetit.fi'
+      url: 'www.hemmondieetit.fi',
+      user: '5ed8c9147f3c592a6cfbbe53'
     }
   
     await api
@@ -190,6 +192,48 @@ test('a valid blog can be added ', async () => {
         .expect('Content-Type', /application\/json/)
   
       expect(result.body.error).toContain('`username` to be unique')
+  
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
+    test('creation fails with proper statuscode and message if username less than 3 characters long', async () => {
+      const usersAtStart = await helper.usersInDb()
+  
+      const newUser = {
+        username: 'sp',
+        name: 'Suvi',
+        password: 'enkerro',
+      }
+  
+      const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+  
+      expect(result.body.error).toContain('is shorter than the minimum allowed length (3)')
+  
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
+    test('creation fails with proper statuscode and message if password less than 3 characters long', async () => {
+      const usersAtStart = await helper.usersInDb()
+  
+      const newUser = {
+        username: 'spSuvi',
+        name: 'Suvi',
+        password: 'en',
+      }
+  
+      const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+  
+      expect(result.body.error).toContain('password must be minimum 3 characters long')
   
       const usersAtEnd = await helper.usersInDb()
       expect(usersAtEnd).toHaveLength(usersAtStart.length)
