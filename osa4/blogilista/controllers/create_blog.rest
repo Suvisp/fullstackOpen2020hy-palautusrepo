@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlN1dmlzcCIsImlkIjoiNWVkOGM5MTQ3ZjNjNTkyYTZjZmJiZTUzIiwiaWF0IjoxNTkxMjY4NzAwfQ.6uHj_yR6cWpKxw72nfqlakMQ5KWDwZSK2BHzfnq23-E
+
+{
+    "title": "Lintublogi",
+    "author": "Lintubongari",
+    "url": "www.lintublogi.fi",
+    "likes": 11
+}
