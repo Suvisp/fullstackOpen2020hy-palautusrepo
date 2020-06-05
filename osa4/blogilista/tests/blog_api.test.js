@@ -42,9 +42,8 @@ test('a valid blog can be added ', async () => {
       title: 'Koodi tutoriaalit',
       author: 'koodiguru',
       url: 'www.koodiguruntutoriaalit.fi',
-      likes: 1,
-      user: '5ed8c9147f3c592a6cfbbe53'
-    }
+      likes: 1    
+}
   
     await api
       .post('/api/blogs')
@@ -66,7 +65,6 @@ test('a valid blog can be added ', async () => {
       title: 'Rasvatonsokeritonmautondieetti',
       author: 'Dieettihemmo',
       url: 'www.hemmondieetit.fi',
-      user: '5ed8c9147f3c592a6cfbbe53'
     }
   
     await api
