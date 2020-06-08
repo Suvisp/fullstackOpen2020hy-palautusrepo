@@ -16,6 +16,17 @@ const initialBlogs = [
   }
 ]
 
+
+const initialUsers = [
+  {
+    username: 'testaaja',
+    name: 'testaaja',
+    password: 'salainensana'
+  }
+]
+
+const auth_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJsb2dpdGVzdGFhamEiLCJpZCI6IjVlZGI5NzEzMGIwNGI2MTJmODM0NzRlNSIsImlhdCI6MTU5MTUzNjEyNX0.DrNQMl21u0MI6cT6dr9joyvt8XBxPKomMMgELwBjggg'
+
 // const nonExistingId = async () => {
 //   const blog = new Blog({ title: 'willremovethissoon' })
 //   await blog.save()
@@ -36,6 +47,8 @@ const usersInDb = async () => {
 
 module.exports = {
   initialBlogs, 
+  initialUsers,
+  auth_token,
 //   nonExistingId, 
   blogsInDb,
   usersInDb,
