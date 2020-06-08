@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/Loginform'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  // const [newBlog, setNewBlog] = useState('')
+  const [newBlog, setNewBlog] = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -30,27 +34,26 @@ const App = () => {
 
   const handleUsernameChange = (event) => setUsername(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
+  const handleTitleChange = (event) => setTitle(event.target.value)
+  const handleAuthorChange = (event) => setAuthor(event.target.value)
+  const handleUrlChange = (event) => setUrl(event.target.value)
 
-  // const addBlog = (event) => {
-  //   event.preventDefault()
-  //   const blogObject = {
-  //     title: newBlog,
-  //     author: newBlog,
-  //     url: newBlog
-  //   }
 
-  //   blogService
-  //     .create(blogObject)
-  //     .then(returnedBlog => {
-  //       setBlogs(blogs.concat(returnedBlog))
-  //       setNewBlog('')
-  //     })
-  // }
+  const addBlog = (event) => {
+    event.preventDefault()
+    const blogObject = {
+      title: title,
+      author: author,
+      url: url
+    }
 
-  // const handleBlogChange = (event) => {
-  //   console.log(event.target.value)
-  //   setNewBlog(event.target.value)
-  // }
+    blogService
+      .createOne(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setNewBlog('')
+      })
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -73,16 +76,6 @@ const App = () => {
       }, 5000)
     }
   }
-
-  // const blogForm = () => (
-  //   <form onSubmit={addBlog}>
-  //     <input
-  //       value={newBlog}
-  //       onChange={handleBlogChange}
-  //     />
-  //     <button type="submit">save</button>
-  //   </form>
-  // )
 
   const handleLogout = event => {
     event.preventDefault();
@@ -110,13 +103,24 @@ const App = () => {
   return (
     <div>
       <Notification message={errorMessage} />
-      
-      {user.name} logged in {"  "}
-      <button onClick={handleLogout}> logout</button>
 
       <h2>Blogs</h2>
+
+      {user.name} logged in {"  "}
+      <button onClick={handleLogout}> logout</button>
+      
+        <BlogForm 
+        title={title}
+        author={author}
+        url={url}
+        addBlog={addBlog}
+        handleTitleChange={handleTitleChange}
+        handleAuthorChange={handleAuthorChange}
+        handleUrlChange={handleUrlChange}
+        />
+    
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <BlogList key={blog.id} blog={blog} />
       )}
     </div>
   );
