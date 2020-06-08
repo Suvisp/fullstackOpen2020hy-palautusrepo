@@ -6,6 +6,7 @@ const helper = require('./test_helper')
 const Blog = require('../models/blog')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+// const jwt = require('jsonwebtoken')
 
 describe('when there is initially some blogs saved', () => {
 
@@ -38,16 +39,21 @@ test('succeeds with a valid id', async () => {
 describe('addition of a new blog', () => {
 
 test('a valid blog can be added ', async () => {
+
     const newBlog = {
       title: 'Koodi tutoriaalit',
       author: 'koodiguru',
       url: 'www.koodiguruntutoriaalit.fi',
       likes: 1    
 }
-  
+
+// const auth_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJsb2dpdGVzdGFhamEiLCJpZCI6IjVlZGI5NzEzMGIwNGI2MTJmODM0NzRlNSIsImlhdCI6MTU5MTUzNjEyNX0.DrNQMl21u0MI6cT6dr9joyvt8XBxPKomMMgELwBjggg'
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      // .set('Authorization', request.token)
+      // .set('Authorization', auth_token)
       .expect(200)
       .expect('Content-Type', /application\/json/)
   
