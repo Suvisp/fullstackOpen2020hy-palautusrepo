@@ -5,6 +5,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/Loginform'
 import BlogForm from './components/BlogForm'
+import ErrorMessage from './components/ErrorMessage'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notification, setNotification] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -52,6 +54,10 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setNewBlog('')
+        setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       })
   }
 
@@ -70,7 +76,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -87,7 +93,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
+        <ErrorMessage message={errorMessage} />
         <br />
         <LoginForm
           username={username}
@@ -102,14 +108,14 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
-
       <h2>Blogs</h2>
+
+      <Notification notification={notification} />
 
       {user.name} logged in {"  "}
       <button onClick={handleLogout}> logout</button>
-      
-        <BlogForm 
+
+      <BlogForm
         title={title}
         author={author}
         url={url}
@@ -117,8 +123,8 @@ const App = () => {
         handleTitleChange={handleTitleChange}
         handleAuthorChange={handleAuthorChange}
         handleUrlChange={handleUrlChange}
-        />
-    
+      />
+
       {blogs.map(blog =>
         <BlogList key={blog.id} blog={blog} />
       )}
