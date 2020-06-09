@@ -6,18 +6,20 @@ import loginService from './services/login'
 import LoginForm from './components/Loginform'
 import BlogForm from './components/BlogForm'
 import ErrorMessage from './components/ErrorMessage'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  // const [newBlog, setNewBlog] = useState('')
+  // const [title, setTitle] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [url, setUrl] = useState('')
   const [notification, setNotification] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  // const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -34,31 +36,32 @@ const App = () => {
     }
   }, [])
 
-  const handleUsernameChange = (event) => setUsername(event.target.value)
-  const handlePasswordChange = (event) => setPassword(event.target.value)
-  const handleTitleChange = (event) => setTitle(event.target.value)
-  const handleAuthorChange = (event) => setAuthor(event.target.value)
-  const handleUrlChange = (event) => setUrl(event.target.value)
+  // const handleUsernameChange = (event) => setUsername(event.target.value)
+  // const handlePasswordChange = (event) => setPassword(event.target.value)
+  // const handleTitleChange = (event) => setTitle(event.target.value)
+  // const handleAuthorChange = (event) => setAuthor(event.target.value)
+  // const handleUrlChange = (event) => setUrl(event.target.value)
 
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: title,
-      author: author,
-      url: url
-    }
-
+  //ADD A NEW BLOG
+  const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+    // event.preventDefault()
+    // const blogObject = {
+    //   title: title,
+    //   author: author,
+    //   url: url
+    // }  
     blogService
       .createOne(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setNewBlog('')
-        setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+        // setNewBlog('')
+      })
+      setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
         setTimeout(() => {
           setNotification(null)
         }, 5000)
-      })
   }
 
   const handleLogin = async (event) => {
@@ -87,7 +90,10 @@ const App = () => {
     event.preventDefault();
     window.localStorage.clear();
     setUser(null);
-  };
+  }
+
+  const blogFormRef = React.createRef()
+
 
   if (user === null) {
     return (
@@ -95,13 +101,15 @@ const App = () => {
         <h2>Log in to application</h2>
         <ErrorMessage message={errorMessage} />
         <br />
-        <LoginForm
-          username={username}
-          password={password}
-          handleLogin={handleLogin}
-          usernameChange={handleUsernameChange}
-          passwordChange={handlePasswordChange}
-        />
+        <Togglable buttonLabel='login'>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+        </Togglable>
       </div>
     )
   }
@@ -114,17 +122,14 @@ const App = () => {
 
       {user.name} logged in {"  "}
       <button onClick={handleLogout}> logout</button>
+      <br />
 
-      <BlogForm
-        title={title}
-        author={author}
-        url={url}
-        addBlog={addBlog}
-        handleTitleChange={handleTitleChange}
-        handleAuthorChange={handleAuthorChange}
-        handleUrlChange={handleUrlChange}
-      />
-
+      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+        <BlogForm
+          createBlog={addBlog}
+        />
+      </Togglable>
+      <br />
       {blogs.map(blog =>
         <BlogList key={blog.id} blog={blog} />
       )}
@@ -132,5 +137,7 @@ const App = () => {
   );
 
 }
+
+
 
 export default App
