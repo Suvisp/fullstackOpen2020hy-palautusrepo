@@ -10,7 +10,7 @@ const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-console.log('blog', blog)
+
   if (user.username === blog.user.username) {
     return (
       <div style={blogStyle}>
@@ -22,6 +22,7 @@ console.log('blog', blog)
           <button onClick={addLikes}>like</button>
           <br />
           {blog.user.username}
+          <br />
         </Togglable >
         <button onClick={deleteBlog}>Remove</button>
       </div>
@@ -44,4 +45,4 @@ console.log('blog', blog)
   }
 }
 
-  export default BlogList
+export default BlogList
