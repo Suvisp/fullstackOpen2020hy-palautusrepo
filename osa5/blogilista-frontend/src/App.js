@@ -50,10 +50,7 @@ const App = () => {
 
   //ADD LIKES - PUT
   const addLikes = (id) => {
-    console.log('blogs', blogs)
-    console.log('id', id)
     const blog = blogs.find(b => b.id === id)
-    console.log('blog', blog)
     const updatedBlog = { ...blog, likes: blog.likes + 1 }
     blogService
       .updateOne(id, updatedBlog)
@@ -71,16 +68,16 @@ const App = () => {
       if (window.confirm(`Do you want to delete ${deleteId[0].title}?`)) {
         blogService
           .deleteOne(id)
-          .then(returnedBlogs => {
-            setBlogs(blogs.filter(b => b.id !== id))
-            // setNewPeople(people.concat(returnedPeople))
-            setNotification(`'${deleteId[0].title}' deleted`)
-            setTimeout(() => {
-              setNotification(null)
-            }, 5000)
-          })
-      }
-    }
+          // .then(returnedBlogs => {
+        // .then() {
+        setBlogs(blogs.filter(b => b.id !== id))
+        // setNewPeople(people.concat(returnedPeople))
+        setNotification(`'${deleteId[0].title}' deleted`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+        // })
+      }}
   }
 
   //LOGIN
@@ -110,7 +107,7 @@ const App = () => {
   const handleLogout = event => {
     event.preventDefault();
     window.localStorage.clear();
-    setUser(null);
+    setUser(null)
   }
 
   const blogFormRef = React.createRef()
@@ -141,7 +138,7 @@ const App = () => {
 
       <Notification notification={notification} />
 
-      {user.name} logged in {"  "}
+      {user.name} logged in {'  '}
       <button onClick={handleLogout}> logout</button>
       <br />
 
@@ -152,19 +149,17 @@ const App = () => {
       </Togglable>
       <br />
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <BlogList 
-        key={blog.id} 
-        blog={blog}
-        user={user} 
-        addLikes={() => addLikes(blog.id)} 
-        deleteBlog={()=> removeBlog(blog.id)}
+        <BlogList
+          key={blog.id}
+          blog={blog}
+          user={user}
+          addLikes={() => addLikes(blog.id)} 
+          deleteBlog={() => removeBlog(blog.id)}
         />
       )}
     </div>
-  );
-
+  )
 }
-
 
 
 export default App

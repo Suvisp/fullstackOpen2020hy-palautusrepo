@@ -1,32 +1,49 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const LoginForm = (props) => {
-    return (
+// const LoginForm = (props) => { props tuli määritellä uudestaan erillisiksi, jotta propTypesejä voidaan käyttää
+const LoginForm = ({
+  handleSubmit,
+  handleUsernameChange,
+  handlePasswordChange,
+  username,
+  password
+}) => {
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
         <div>
-            <h2>Login</h2>
-            <form onSubmit={props.handleSubmit}>
-                <div>
                     username
-            <input
-                        name="username"
-                        type="username"
-                        value={props.username}
-                        onChange={props.handleUsernameChange}
-                    />
-                </div>
-                <div>
+          <input
+            name="username"
+            type="username"
+            value={username}
+            onChange={handleUsernameChange}
+          />
+        </div>
+        <div>
                     password
           <input
-                        name="password"
-                        type="password"
-                        value={props.password}
-                        onChange={props.handlePasswordChange}
-                    />
-                </div>
-                <button type="submit">login</button>
-            </form>
+            name="password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
         </div>
-    )
+        <button type="submit">login</button>
+      </form>
+    </div>
+  )
+}
+
+LoginForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  handleUsernameChange: PropTypes.func.isRequired,
+  handlePasswordChange: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired
 }
 
 export default LoginForm
