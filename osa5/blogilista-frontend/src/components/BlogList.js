@@ -15,7 +15,7 @@ const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
 
   if (user.username === blog.user.username) {
     return (
-      <div style={blogStyle} className="blogData">
+      <div style={blogStyle}>
         <div>
           {blog.title} - {blog.author}
           <button onClick={() => setVisible(!visible)}>{label}</button>
@@ -36,7 +36,7 @@ const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
     )
   } else {
     return (
-      <div style={blogStyle} className="allBlogData">
+      <div style={blogStyle}>
         <div>
           {blog.title} - {blog.author}
           <button onClick={() => setVisible(!visible)}>{label}</button>
