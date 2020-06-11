@@ -1,8 +1,10 @@
-import React from 'react'
-import Togglable from './Togglable'
-
+import React, { useState } from 'react'
 
 const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
+  const [visible, setVisible] = useState(false)
+
+  const label = visible ? 'hide' : 'view'
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -13,33 +15,43 @@ const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
 
   if (user.username === blog.user.username) {
     return (
-      <div style={blogStyle}>
-        {blog.title} - {blog.author}
-        < Togglable buttonLabel='view' >
-          {blog.url}
-          < br />
+      <div style={blogStyle} className="blogData">
+        <div>
+          {blog.title} - {blog.author}
+          <button onClick={() => setVisible(!visible)}>{label}</button>
+        </div>
+        {visible && (
+          <div>
+            {blog.url}
+            < br />
         Likes: {blog.likes}
-          <button onClick={addLikes}>like</button>
-          <br />
-          {blog.user.username}
-          <br />
-        </Togglable >
-        <button onClick={deleteBlog}>Remove</button>
+            <button onClick={addLikes}>like</button>
+            <br />
+            {blog.user.username}
+            <br />
+            <button onClick={deleteBlog}>Remove</button>
+          </div>
+        )}
       </div>
     )
   } else {
     return (
-      <div style={blogStyle}>
-        {blog.title} - {blog.author}
-        < Togglable buttonLabel='view' >
-          {blog.url}
-          < br />
+      <div style={blogStyle} className="allBlogData">
+        <div>
+          {blog.title} - {blog.author}
+          <button onClick={() => setVisible(!visible)}>{label}</button>
+        </div>
+        {visible && (
+          <div>
+            {blog.url}
+            < br />
         likes {blog.likes}
-          <button onClick={addLikes}>like</button>
-          <br />
-          {blog.user.username}
-          <br />
-        </Togglable >
+            <button onClick={addLikes}>like</button>
+            <br />
+            {blog.user.username}
+            <br />
+          </div>
+        )}
       </div>
     )
   }
