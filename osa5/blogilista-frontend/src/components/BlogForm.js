@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 
 const BlogForm = ({ createBlog }) => {
-  const [setNewBlog] = useState('')
+  const [newBlog, setNewBlog] = useState('')
   const [newTitle, setTitle] = useState('')
   const [newAuthor, setAuthor] = useState('')
   const [newUrl, setUrl] = useState('')

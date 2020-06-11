@@ -153,7 +153,7 @@ const App = () => {
           key={blog.id}
           blog={blog}
           user={user}
-          addLikes={() => addLikes(blog.id)} 
+          addLikes={() => addLikes(blog.id)}
           deleteBlog={() => removeBlog(blog.id)}
         />
       )}
