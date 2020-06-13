@@ -117,7 +117,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <ErrorMessage message={errorMessage} />
+        <ErrorMessage id='error' message={errorMessage} />
         <br />
         <Togglable buttonLabel='login'>
           <LoginForm
