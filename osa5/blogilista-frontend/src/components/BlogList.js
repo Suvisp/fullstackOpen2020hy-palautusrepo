@@ -15,21 +15,21 @@ const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
 
   if (user.username === blog.user.username) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='blogs'>
         <div>
           {blog.title} - {blog.author}
-          <button onClick={() => setVisible(!visible)}>{label}</button>
+          <button onClick={() => setVisible(!visible)} className='viewButton'>{label}</button>
         </div>
         {visible && (
           <div>
             {blog.url}
             < br />
         Likes: {blog.likes}
-            <button onClick={addLikes}>like</button>
+            <button onClick={addLikes} className='likeButton'>like</button>
             <br />
             {blog.user.username}
             <br />
-            <button onClick={deleteBlog}>Remove</button>
+            <button id='delete-button' onClick={deleteBlog}>remove</button>
           </div>
         )}
       </div>
@@ -39,7 +39,7 @@ const BlogList = ({ blog, addLikes, deleteBlog, user }) => {
       <div style={blogStyle}>
         <div>
           {blog.title} - {blog.author}
-          <button onClick={() => setVisible(!visible)}>{label}</button>
+          <button onClick={() => setVisible(!visible)} className='viewButton'>{label}</button>
         </div>
         {visible && (
           <div>

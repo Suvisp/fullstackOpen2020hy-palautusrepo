@@ -105,8 +105,8 @@ const App = () => {
 
   //LOGOUT
   const handleLogout = event => {
-    event.preventDefault();
-    window.localStorage.clear();
+    event.preventDefault()
+    window.localStorage.clear()
     setUser(null)
   }
 
