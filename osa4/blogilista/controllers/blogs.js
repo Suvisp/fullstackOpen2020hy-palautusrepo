@@ -28,7 +28,7 @@ blogsRouter.get('/', async (request, response) => {
         author: body.author,
         user: user,
         url: body.url,
-        likes: body.likes
+        likes: body.likes || 0
     })
 
     const savedBlog = await blog.save()
