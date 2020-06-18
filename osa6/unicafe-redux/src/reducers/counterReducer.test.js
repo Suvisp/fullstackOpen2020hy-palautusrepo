@@ -6,7 +6,8 @@ describe('unicafe reducer', () => {
   const initialState = {
     good: 0,
     ok: 0,
-    bad: 0
+    bad: 0,
+    all: 0
   }
 
   test('should return a proper initial state when called with undefined state', () => {
@@ -14,6 +15,7 @@ describe('unicafe reducer', () => {
     const action = {
       type: 'DO_NOTHING'
     }
+
 
     const newState = counterReducer(undefined, action)
     expect(newState).toEqual(initialState)
@@ -31,7 +33,8 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 1,
       ok: 0,
-      bad: 0
+      bad: 0,
+      all: 1
     })
   })
 
@@ -47,7 +50,8 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 1,
       ok: 1,
-      bad: 0
+      bad: 0,
+      all: 2
     })
   })
 
@@ -63,7 +67,8 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 1,
       ok: 1,
-      bad: 1
+      bad: 1,
+      all: 3
     })
   })
 
@@ -79,7 +84,8 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 0,
       ok: 0,
-      bad: 0
+      bad: 0,
+      // all: 0
     })
   })
 })
