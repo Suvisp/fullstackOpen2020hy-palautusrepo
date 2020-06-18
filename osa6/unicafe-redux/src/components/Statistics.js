@@ -24,9 +24,8 @@ const Statistics = () => {
                     <div>neutral {store.getState().ok}</div>
                     <div>bad {store.getState().bad}</div>
                     <div>all {store.getState().all}</div>
-        {/* <tr>average {props.average / props.all}</tr>
-        <tr>positive {props.positive * 100 / props.all} %</tr> */}
-
+                    <div>average {store.getState().average/store.getState().all}</div>
+                    <div>positive {store.getState().positive*100/store.getState().all} %</div>
         </div>
     )
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import reducer from './reducers/counterReducer'
-// import Button from './components/Button'
 import Statistics from './components/Statistics'
 
 const store = createStore(reducer)
@@ -32,7 +31,6 @@ const App = () => {
   return (
     <div>
       <h2>give feedback</h2>
-      {/* <Button /> */}
       <button onClick={good}>good</button>
       <button onClick={ok}>neutral</button>
       <button onClick={bad}>bad</button>
