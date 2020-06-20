@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../actions/anecdoteAction'
 
 
-const NewAnecdote = (props) => {
+const AnecdoteForm = (props) => {
   const dispatch = useDispatch()
 
   const addAnecdote = (event) => {
@@ -14,14 +14,14 @@ const NewAnecdote = (props) => {
   }
 
   return (
-      <div>
-    <h2>create new</h2>
-    <form onSubmit={addAnecdote}>
-      <input name="anecdote" />
-      <button type="submit">add</button>
-    </form>
+    <div>
+      <h2>Create new</h2>
+      <form onSubmit={addAnecdote}>
+        <input name="anecdote" />
+        <button type="submit">add</button>
+      </form>
     </div>
   )
 }
 
-export default NewAnecdote
+export default AnecdoteForm
