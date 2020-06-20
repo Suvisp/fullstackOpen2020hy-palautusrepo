@@ -30,7 +30,6 @@ const App = () => {
       )}
       <NewAnecdote />
     </div>
-
   )
 }
 
