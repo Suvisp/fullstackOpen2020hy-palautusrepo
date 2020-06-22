@@ -1,8 +1,8 @@
 const initialState = null
 
-const notifyNew = 'New anecdote added'
+const notificationOfNewAnecdotes = 'New anecdote added'
 
-const voteNew = 'You have voted'
+const notificationOfVotes = 'You voted'
 
 
 const notificationReducer = (state = initialState, action) => {
@@ -10,9 +10,12 @@ const notificationReducer = (state = initialState, action) => {
     console.log('action', action)
     switch (action.type) {
         case 'NEW_ANECDOTE_NOTIFICATION':
-            return notifyNew
-            case 'NEW_VOTE_NOTIFICATION':
-                return voteNew
+            const newContent = action.data.content
+            return notificationOfNewAnecdotes + ' ' + newContent
+        case 'NEW_VOTE_NOTIFICATION':
+            // const id = action.data.id
+            const content = action.data.content
+            return notificationOfVotes + ' ' + content
         case 'HIDE_NOTIFICATION':
             return initialState
         default: return state
