@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from '../actions/anecdoteAction'
 import { showNotificationOfVote, hideNotification } from '../actions/notificationAction'
+// import { actionCreatorFilter } from '../actions/filterAction'
 
 
 const AnecdoteList = (props) => {
@@ -19,8 +20,22 @@ const AnecdoteList = (props) => {
         }, 5000)
     }
 
+    // const filterHandler = (event) => {
+    //         let filterText = event.target.value
+    //         // let filtered = anecdotes
+    //         let filtered = anecdotes.filter(anecdote => {
+    //           let content = anecdote.content.toLowerCase()
+    //           return content.indexOf(
+    //             filterText.toLowerCase()) !== -1
+    //         })
+    //         dispatch(actionCreatorFilter(filtered))
+    //       }
+
     return (
         <div>
+      {/* Filter: 
+      <input onChange={filterHandler}>
+      </input> */}
             {anecdotes.sort((a, b) => b.votes - a.votes)
             .map(anecdote =>
                 <div key={anecdote.id}>
