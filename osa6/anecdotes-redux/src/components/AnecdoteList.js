@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from '../actions/anecdoteAction'
-import { showNotificationOfVote, hideNotification } from '../actions/notificationAction'
+import { showNotificationOfVote } from '../actions/notificationAction'
 // import { actionCreatorFilter } from '../actions/filterAction'
 
 
@@ -12,12 +12,10 @@ const AnecdoteList = (props) => {
     const vote = (anecdote) => {
         const id = anecdote.id
         const content = anecdote.content
+        const votes = anecdote.votes
         console.log('vote', id)
-        dispatch(voteAnecdote(id))
-        dispatch(showNotificationOfVote(content))
-        setTimeout(() => {
-          dispatch(hideNotification())
-        }, 5000)
+        dispatch(voteAnecdote(id, content, votes))
+        dispatch(showNotificationOfVote(`you voted '${content}'`, 10))
     }
 
     // const filterHandler = (event) => {
