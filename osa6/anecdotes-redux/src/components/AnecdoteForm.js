@@ -2,7 +2,7 @@ import React from 'react'
 // import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { createAnecdote } from '../actions/anecdoteAction'
-// import { showNotificationOfNewAnecdote } from '../actions/notificationAction'
+import { showNotificationOfNewAnecdote } from '../actions/notificationAction'
 // import anecdoteService from '../services/anecdotes'
 
 
@@ -16,6 +16,7 @@ const AnecdoteForm = (props) => {
     // dispatch(createAnecdote(content))
     // dispatch(showNotificationOfNewAnecdote(`new anecdote '${content}' added`, 10))
     props.createAnecdote(content)
+    props.showNotificationOfNewAnecdote(`new anecdote '${content}' added`, 10)
   }
 
   return (  
@@ -28,5 +29,5 @@ const AnecdoteForm = (props) => {
     </div>
   )
 }
-export default connect(null, { createAnecdote })(AnecdoteForm)
+export default connect(null, { createAnecdote, showNotificationOfNewAnecdote })(AnecdoteForm)
 // export default AnecdoteForm
