@@ -1,17 +1,27 @@
-export const showNotificationOfNewAnecdote = (content) => {
-    return {
-        type: 'NEW_ANECDOTE_NOTIFICATION',
-        data: { content }
+const timer = setTimeout
+
+export const showNotificationOfNewAnecdote = (content, time) => {
+    return async dispatch => {
+        clearTimeout(timer)
+        await dispatch({
+            type: 'NEW_ANECDOTE_NOTIFICATION',
+            data: content
+        })
+        timer(() => {
+            dispatch({ type: 'HIDE_NOTIFICATION' })
+        }, time * 1000)
     }
 }
 
-export const showNotificationOfVote = (content) => {
-    return {
-        type: 'NEW_VOTE_NOTIFICATION',
-        data: { content }
+export const showNotificationOfVote = (content, time) => {
+    return async dispatch => {
+        clearTimeout(timer)
+        await dispatch({
+            type: 'NEW_VOTE_NOTIFICATION',
+            data: content
+        })
+        timer(() => {
+            dispatch({ type: 'HIDE_NOTIFICATION' })
+        }, time * 1000)
     }
 }
-
-export function hideNotification() {
-    return { type: 'HIDE_NOTIFICATION' }
-  }
