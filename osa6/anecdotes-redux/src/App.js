@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
-import Filter from './components/Filter'
 import { initializeAnecdotes } from './actions/anecdoteAction'
 import { useDispatch } from 'react-redux'
 
@@ -17,7 +16,6 @@ const App = () => {
   return (
     <div>
       <Notification />
-      <Filter />
       <AnecdoteList />
       <AnecdoteForm />
     </div>

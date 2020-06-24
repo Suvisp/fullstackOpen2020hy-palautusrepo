@@ -1,4 +1,4 @@
-export const filter = (content) => {
+export const filterAnecdotes = (content) => {
   console.log('filtteröi')
   return {
       type: 'FILTER',
