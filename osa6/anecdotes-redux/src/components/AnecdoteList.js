@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { voteAnecdote } from '../actions/anecdoteAction'
 import { showNotificationOfVote } from '../actions/notificationAction'
-// import { actionCreatorFilter } from '../actions/filterAction'
 
 
 const AnecdoteList = (props) => {
@@ -11,15 +10,13 @@ const AnecdoteList = (props) => {
     // const dispatch = useDispatch()
     const vote = (anecdote) => {
         props.voteAnecdote(anecdote)
-        props.showNotificationOfVote(`you voted '${anecdote.content}'`, 10)
+        props.showNotificationOfVote(`you voted '${anecdote.content}'`, 5)
     }
 
     return (
         <div>
             <h2>Anecdotes</h2>
-            {props
-                .anecdotes
-                // .filter(a => a.content.toLowerCase().includes(props.filter.content))
+            {props.anecdotes
                 .sort((a, b) => b.votes - a.votes)
                 .map(anecdote =>
                     <div key={anecdote.id}>
@@ -29,7 +26,6 @@ const AnecdoteList = (props) => {
                         <div>
                             has {anecdote.votes}
                             <button onClick={() => vote(anecdote)}>vote</button>
-                            {/* <button onClick={() => props.dispatch(voteAnecdote(anecdote.id, props))}>vote</button> */}
                         </div>
                     </div>
                 )}
@@ -38,11 +34,11 @@ const AnecdoteList = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return ({
+    return {
         anecdotes: state.anecdotes,
-        filter: state.filter,
+        filterInput: state.filterInput,
         notification: state.notification
-    })
+    }
 }
 
 const mapDispatchToProps = {
