@@ -36,8 +36,7 @@ const AnecdoteList = (props) => {
 const mapStateToProps = (state) => {
     return {
         anecdotes: state.anecdotes,
-        filterInput: state.filterInput,
-        notification: state.notification
+        filterInput: state.filterInput
     }
 }
 
