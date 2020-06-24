@@ -1,4 +1,4 @@
-const timer = setTimeout
+var timer
 
 export const showNotificationOfNewAnecdote = (content, time) => {
     return async dispatch => {
@@ -7,7 +7,7 @@ export const showNotificationOfNewAnecdote = (content, time) => {
             type: 'NEW_ANECDOTE_NOTIFICATION',
             data: content
         })
-        timer(() => {
+        timer = setTimeout(() => {
             dispatch({ type: 'HIDE_NOTIFICATION' })
         }, time * 1000)
     }
@@ -20,7 +20,7 @@ export const showNotificationOfVote = (content, time) => {
             type: 'NEW_VOTE_NOTIFICATION',
             data: content
         })
-        timer(() => {
+        timer = setTimeout(() => {
             dispatch({ type: 'HIDE_NOTIFICATION' })
         }, time * 1000)
     }
