@@ -6,6 +6,8 @@ import CreateNew from './components/CreateNew'
 import AnecdoteList from './components/AnecdoteList'
 import Anecdote from './components/Anecdote'
 import Footer from './components/Footer'
+import Notification from './components/Notification'
+
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -25,11 +27,28 @@ const App = () => {
     }
   ])
 
+  console.log('anecdotes', anecdotes)
+
+
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
-    anecdote.id = (Math.random() * 10000).toFixed(0)
-    setAnecdotes(anecdotes.concat(anecdote))
+    const anecdoteWithId = {
+      ...anecdote,
+      id: (Math.random() * 10000).toFixed(0)
+    }
+    // anecdote.id = (Math.random() * 10000).toFixed(0)
+    console.log('anecdoteID', anecdoteWithId.id)
+    // setAnecdotes(anecdotes.concat(anecdoteWithId))
+    setAnecdotes(previousAnecdotes => [...previousAnecdotes, anecdoteWithId]);
+    console.log('anecdotetobeset', anecdoteWithId)
+    // console.log('anecdotesUpdated', previousAnecdotes)
+    setNotification(
+      `a new anecdote '${anecdote.content}' created`
+    )
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -51,14 +70,10 @@ const App = () => {
     ? anecdotes.find(a => a.id === match.params.id)
     : null
 
-  console.log('match', match)
-  console.log('anecdote', anecdote)
-  const match2 = useRouteMatch()
-console.log('match2', match2)
-
   return (
     <div>
       <Menu />
+      <Notification notification={notification} />
       <Switch>
         <Route path="/about">
           <About />
