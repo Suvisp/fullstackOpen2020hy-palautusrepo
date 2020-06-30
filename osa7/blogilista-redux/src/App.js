@@ -7,10 +7,12 @@ import ErrorMessage from './components/ErrorMessage'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+// import { showNotificationOfNewBlog } from './actions/notificationAction'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [notification, setNotification] = useState(null)
+  // const [notification, setNotification] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -42,10 +44,12 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         // setNewBlog('')
       })
-    setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
+    // showNotificationOfNewBlog(`you voted '${blogObject.content}'`, 5)
+
+    // setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+    // setTimeout(() => {
+    //   setNotification(null)
+    // }, 5000)
   }
 
   //ADD LIKES - PUT
@@ -68,16 +72,17 @@ const App = () => {
       if (window.confirm(`Do you want to delete ${deleteId[0].title}?`)) {
         blogService
           .deleteOne(id)
-          // .then(returnedBlogs => {
+        // .then(returnedBlogs => {
         // .then() {
         setBlogs(blogs.filter(b => b.id !== id))
         // setNewPeople(people.concat(returnedPeople))
-        setNotification(`'${deleteId[0].title}' deleted`)
-        setTimeout(() => {
-          setNotification(null)
-        }, 5000)
+        // setNotification(`'${deleteId[0].title}' deleted`)
+        // setTimeout(() => {
+        //   setNotification(null)
+        // }, 5000)
         // })
-      }}
+      }
+    }
   }
 
   //LOGIN
@@ -136,7 +141,8 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
 
-      <Notification notification={notification} />
+      {/* <Notification notification={notification} /> */}
+      <Notification />
 
       {user.name} logged in {'  '}
       <button onClick={handleLogout}> logout</button>

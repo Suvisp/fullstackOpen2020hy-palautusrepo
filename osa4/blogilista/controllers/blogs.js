@@ -8,7 +8,7 @@ blogsRouter.get('/', async (request, response) => {
     // const blogs = await Blog.find({})
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
 
-    response.json(blogs)
+    response.json(blogs)  
   })
 
 //POST new blog with a valid token
@@ -77,7 +77,8 @@ blogsRouter.put('/:id', async (request, response) => {
 
 	const blog = {
     title: body.title,
-		author: body.author,
+    author: body.author,
+    // user: body.user,
     url: body.url,
     likes: body.likes
 	}
