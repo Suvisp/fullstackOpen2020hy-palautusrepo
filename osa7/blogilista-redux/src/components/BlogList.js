@@ -1,6 +1,8 @@
 /* eslint-disable no-irregular-whitespace */
 import React from 'react'
 import { connect } from 'react-redux'
+import { addLikes, deleteBlog } from '../actions/blogAction'
+import { createNotificationOfLike, createNotificationOfDelete } from '../actions/notificationAction'
 
 
 const BlogList = (props) => {
@@ -12,8 +14,18 @@ const BlogList = (props) => {
     marginBottom: 5
   }
 
-  // console.log('user.username', user.username)
-  // console.log('blog.user.username', blog.user.username)
+  const handleLike = (blog) => {
+    props.addLikes(blog)
+    props.createNotificationOfLike(`you liked '${blog.title}'`, 5)
+  }
+
+  const handleDelete = (blog) => {
+    props.deleteBlog(blog.id)
+    props.createNotificationOfDelete(`you removed '${blog.title}'`, 5)
+  }
+
+  // console.log('user.username', props.user.username)
+  // console.log('blog.user.username', props.blog.user.username)
   // if (user.username === blog.user.username) {
   // if (user ? user.username === blog.user.username : false) {
   // Tai (user && user.username === blog?.user?.username)
@@ -34,12 +46,10 @@ const BlogList = (props) => {
               <div>
                 {blog.url}
                 < br />
-         Likes: {blog.likes}
-                {/* <button onClick={() => addLikes(blog.id)}className='likeButton'>like</button> */}
-                <br />
+likes: {blog.likes}
+                <button onClick={() => handleLike(blog)} className='likeButton'>like</button>
                 {blog.user.username}
-                <br />
-                {/* <button id='delete-button' onClick={() => removeBlog(props.blog.id)}>remove</button> */}
+                <button id='delete-button' onClick={() => handleDelete(blog)}>remove</button>
               </div>
             </div>
           )}
@@ -58,11 +68,14 @@ const BlogList = (props) => {
               <div>
                 {blog.url}
                 < br />
-        likes {blog.likes}
+likes {blog.likes}
                 {/* <button onClick={() => props.addLikes(props.blog.id)}>like</button> */}
+                {/* <button onClick={() => props.handleLike(blog.id)} className='likeButton'>like</button> */}
+                <button onClick={() => handleLike(blog)} className='likeButton'>like</button>
                 <br />
                 {blog.user.username}
                 <br />
+                <button id='delete-button' onClick={() => handleDelete(blog)}>remove</button>
               </div>
             </div>
           )}
@@ -77,6 +90,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedBlogs = connect(mapStateToProps)(BlogList)
+const mapDispatchToProps = {
+  addLikes,
+  createNotificationOfLike,
+  deleteBlog,
+  createNotificationOfDelete
+}
+
+const ConnectedBlogs = connect(mapStateToProps, mapDispatchToProps)(BlogList)
 
 export default ConnectedBlogs

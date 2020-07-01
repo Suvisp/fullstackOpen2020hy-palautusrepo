@@ -1,17 +1,3 @@
-// var timer
-
-// export const showNotificationOfNewBlog = (newTitle, time) => {
-//   return async dispatch => {
-//     clearTimeout(timer)
-//     await dispatch({
-//       type: 'NEW_BLOG_NOTIFICATION',
-//       data: newTitle
-//     })
-//     timer = setTimeout(() => {
-//       dispatch({ type: 'HIDE_NOTIFICATION' })
-//     }, time * 1000)
-//   }
-// }
 export const createNotificationOfNew = (title) => {
   return {
     type: 'NEW_BLOG_NOTIFICATION',
@@ -19,12 +5,19 @@ export const createNotificationOfNew = (title) => {
   }
 }
 
-// export const createNotificationVote = (content) => {
-//   return {
-//     type: 'NEW_VOTE_NOTIFICATION',
-//     data: { content }
-//   }
-// }
+export const createNotificationOfLike = (title) => {
+  return {
+    type: 'ADD_LIKE_NOTIFICATION',
+    data:  title
+  }
+}
+
+export const createNotificationOfDelete = (title) => {
+  return {
+    type: 'DELETE_BLOG_NOTIFICATION',
+    data:  title
+  }
+}
 
 export function hideNotification() {
   return { type: 'HIDE_NOTIFICATION' }
