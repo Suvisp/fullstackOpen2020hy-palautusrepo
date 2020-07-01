@@ -12,10 +12,10 @@
 //     }, time * 1000)
 //   }
 // }
-export const createNotificationOfNew = (newTitle) => {
+export const createNotificationOfNew = (title) => {
   return {
     type: 'NEW_BLOG_NOTIFICATION',
-    data: newTitle
+    data: title
   }
 }
 

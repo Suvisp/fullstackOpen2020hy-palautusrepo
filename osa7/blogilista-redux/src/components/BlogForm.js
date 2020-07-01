@@ -1,35 +1,26 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { createBlog } from '../actions/blogAction'
 import { createNotificationOfNew, hideNotification } from '../actions/notificationAction'
 // import { showNotificationOfNewBlog } from '../actions/notificationAction'
 
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = (props) => {
   const dispatch = useDispatch()
 
-  const [newBlog, setNewBlog] = useState('')
-  const [newTitle, setTitle] = useState('')
-  const [newAuthor, setAuthor] = useState('')
-  const [newUrl, setUrl] = useState('')
-
-  const handleTitleChange = (event) => setTitle(event.target.value)
-  const handleAuthorChange = (event) => setAuthor(event.target.value)
-  const handleUrlChange = (event) => setUrl(event.target.value)
-
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
-    createBlog({
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    })
-
-    setNewBlog('')
-
+    const title = event.target.title.value
+    const author = event.target.author.value
+    const url = event.target.url.value
+    event.target.title.value = ''
+    event.target.author.value = ''
+    event.target.url.value = ''
+    dispatch(createBlog(title, author, url))
     // showNotificationOfNewBlog(`New blog '${newTitle}' added`, 5)
-    console.log('newTitle', newTitle)
-    dispatch(createNotificationOfNew(`New blog '${newTitle}' added`))
+    console.log('title', title)
+    dispatch(createNotificationOfNew(`New blog '${title}' added`))
     setTimeout(() => {
       dispatch(hideNotification())
     }, 5000)
@@ -44,9 +35,9 @@ const BlogForm = ({ createBlog }) => {
           <input
             id='title'
             type='title'
-            value={newTitle}
+            // value={newTitle}
             name='title'
-            onChange={handleTitleChange}
+            // onChange={handleTitleChange}
           />
         </div>
         <div>
@@ -54,9 +45,9 @@ const BlogForm = ({ createBlog }) => {
           <input
             id='author'
             type='author'
-            value={newAuthor}
+            // value={newAuthor}
             name='author'
-            onChange={handleAuthorChange}
+            // onChange={handleAuthorChange}
           />
         </div>
         <div>
@@ -64,9 +55,9 @@ const BlogForm = ({ createBlog }) => {
           <input
             id='url'
             // type='url'
-            value={newUrl}
+            // value={newUrl}
             name='url'
-            onChange={handleUrlChange}
+            // onChange={handleUrlChange}
           />
         </div>
         <button type='submit'>save</button>
