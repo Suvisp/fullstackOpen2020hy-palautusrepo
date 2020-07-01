@@ -9,18 +9,8 @@ const setToken = newToken => {
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)
-  // return request.then(response => response.data)
   return response.data
 }
-
-// const createOne = async newObject => {
-//   const config = {
-//     headers: { Authorization: token },
-//   }
-
-//   const response = await axios.post(baseUrl, newObject, config)
-//   return response.data
-// }
 
 const createOne = async (title, author, url, votes ) => {
   const config = {
@@ -32,10 +22,11 @@ const createOne = async (title, author, url, votes ) => {
   return response.data
 }
 
-const updateOne = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
+const updateOne = async (blog) => {
+  const response = await axios.put(`${baseUrl}/${blog.id}`, blog)
+  return response.data
 }
+
 
 const deleteOne = async (id) => {
   const config = {
@@ -43,7 +34,6 @@ const deleteOne = async (id) => {
   }
 
   const request = await axios.delete(`${baseUrl}/${id}`, config)
-  // return request.then(response => response.data)
   return request.data
 }
 

@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../actions/blogAction'
 import { createNotificationOfNew, hideNotification } from '../actions/notificationAction'
-// import { showNotificationOfNewBlog } from '../actions/notificationAction'
 
 
 const BlogForm = (props) => {
@@ -18,7 +17,6 @@ const BlogForm = (props) => {
     event.target.author.value = ''
     event.target.url.value = ''
     dispatch(createBlog(title, author, url))
-    // showNotificationOfNewBlog(`New blog '${newTitle}' added`, 5)
     console.log('title', title)
     dispatch(createNotificationOfNew(`New blog '${title}' added`))
     setTimeout(() => {

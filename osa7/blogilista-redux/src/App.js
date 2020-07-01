@@ -7,7 +7,6 @@ import ErrorMessage from './components/ErrorMessage'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
-// import { showNotificationOfNewBlog } from './actions/notificationAction'
 import { initializeBlogs } from './actions/blogAction'
 import { useDispatch } from 'react-redux'
 
@@ -15,7 +14,6 @@ import { useDispatch } from 'react-redux'
 const App = () => {
   const dispatch = useDispatch()
 
-  // const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -35,36 +33,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  //ADD A NEW BLOG - POST
-  // const addBlog = (blogObject) => {
-  //   blogFormRef.current.toggleVisibility()
-  //   blogService
-  //     .createOne(blogObject)
-  //     .then(returnedBlog => {
-  //       setBlogs(blogs.concat(returnedBlog))
-  //       // setNewBlog('')
-  //     })
-  //   // showNotificationOfNewBlog(`you voted '${blogObject.content}'`, 5)
-
-  //   // setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
-  //   // setTimeout(() => {
-  //   //   setNotification(null)
-  //   // }, 5000)
-  // }
-
-  // //ADD LIKES - PUT
-  // const addLikes = (id) => {
-  //   const blog = blogs.find(b => b.id === id)
-  //   const updatedBlog = { ...blog, likes: blog.likes + 1 }
-  //   blogService
-  //     .updateOne(id, updatedBlog)
-  //     .then(returnedBlog => {
-  //       setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-  //     }).catch(error => {
-  //       console.log(error)
-  //     })
-  // }
 
   //REMOVE A BLOG - DELETE
   // const removeBlog = (id) => {
