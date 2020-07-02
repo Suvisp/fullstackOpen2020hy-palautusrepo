@@ -1,8 +1,8 @@
 import usersService from '../services/users'
 
-export const isLoggedIn = () => {
+export const loggedUser = () => {
   return {
-    type: 'IS_LOGGED_IN'
+    type: 'LOGGED_USER'
   }
 }
 

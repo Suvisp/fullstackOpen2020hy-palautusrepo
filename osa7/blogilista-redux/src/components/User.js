@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import Togglable from './components/Togglable'
 
 
 const User = (props) => {
@@ -12,10 +11,10 @@ const User = (props) => {
   return (
     <div>
       <h2>{name}</h2>
-      {/* <Togglable buttonLabel='blogs added'>added blogs */}
-      {/* </Togglable> */}
+      <h4>blogs added</h4>
       {blogs.map(blog =>
-        <div key={blog.id}>{blog.title}</div>)}
+        <div key={blog.id}>
+          {blog.title}</div>)}
     </div>
   )
 }
