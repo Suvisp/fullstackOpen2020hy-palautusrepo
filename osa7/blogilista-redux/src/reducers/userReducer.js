@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 
 const userReducer = (state = { user: '', allUsers: [] }, action) => {
   switch (action.type) {
-  case 'IS_LOGGED_IN':
+  case 'LOGGED_USER':
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)

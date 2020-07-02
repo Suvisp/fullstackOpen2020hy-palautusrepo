@@ -4,12 +4,17 @@ import { useDispatch } from 'react-redux'
 import { createBlog } from '../actions/blogAction'
 import { createNotificationOfNew, hideNotification } from '../actions/notificationAction'
 
+import Togglable from './Togglable'
+
 
 const BlogForm = (props) => {
   const dispatch = useDispatch()
 
+  const blogFormRef = React.createRef()
+
   const addBlog = async (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     const title = event.target.title.value
     const author = event.target.author.value
     const url = event.target.url.value
@@ -26,40 +31,35 @@ const BlogForm = (props) => {
 
   return (
     <div>
-      <h2>Create a new blog</h2>
-      <form onSubmit={addBlog}>
-        <div>
+      <Togglable buttonLabel="create new" ref={blogFormRef}>
+        <h2>Create a new blog</h2>
+        <form onSubmit={addBlog}>
+          <div>
           title:
-          <input
-            id='title'
-            type='title'
-            // value={newTitle}
-            name='title'
-            // onChange={handleTitleChange}
-          />
-        </div>
-        <div>
+            <input
+              id='title'
+              type='title'
+              name='title'
+            />
+          </div>
+          <div>
           author:
-          <input
-            id='author'
-            type='author'
-            // value={newAuthor}
-            name='author'
-            // onChange={handleAuthorChange}
-          />
-        </div>
-        <div>
+            <input
+              id='author'
+              type='author'
+              name='author'
+            />
+          </div>
+          <div>
           url:
-          <input
-            id='url'
-            // type='url'
-            // value={newUrl}
-            name='url'
-            // onChange={handleUrlChange}
-          />
-        </div>
-        <button type='submit'>save</button>
-      </form>
+            <input
+              id='url'
+              name='url'
+            />
+          </div>
+          <button type='submit'>save</button>
+        </form>
+      </Togglable>
     </div >
   )
 }

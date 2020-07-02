@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar{
+  color:rgb(89, 204, 185);
+  margin: 10pt auto;  
+   width: 95%;
+   border: 4pt solid lightgray;
+   padding: 1em;
+   color: lightgray;
+   background-color: rgb(70, 179, 119);
+   opacity:0.8;
+ }
