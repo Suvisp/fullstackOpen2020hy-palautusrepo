@@ -1,21 +1,47 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 
-// const LoginForm = (props) => { props tuli määritellä uudestaan erillisiksi, jotta propTypesejä voidaan käyttää
-const LoginForm = ({
-  handleSubmit,
-  handleUsernameChange,
-  handlePasswordChange,
-  username,
-  password
-}) => {
+import loginService from '../services/login'
+import { createErrorMessage, hideErrorMessage } from '../actions/errorAction'
+import { login } from '../actions/userAction'
+
+
+const LoginForm = (props) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+
+      props.login(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      props.createErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        props.hideErrorMessage()
+      }, 5000)
+    }
+  }
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  }
 
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <h2>Log in to application</h2>
+      <form onSubmit={handleLogin}>
         <div>
-                    username
+          username
           <input
             id='username'
             name='username'
@@ -25,7 +51,7 @@ const LoginForm = ({
           />
         </div>
         <div>
-                    password
+          password
           <input
             id='password'
             name='password'
@@ -40,12 +66,10 @@ const LoginForm = ({
   )
 }
 
-LoginForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  handleUsernameChange: PropTypes.func.isRequired,
-  handlePasswordChange: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
+const mapDispatchToProps = {
+  createErrorMessage,
+  hideErrorMessage,
+  login
 }
 
-export default LoginForm
+export default connect(null, mapDispatchToProps)(LoginForm)

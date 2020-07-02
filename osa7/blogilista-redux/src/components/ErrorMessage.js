@@ -1,13 +1,17 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+
 
 const ErrorMessage = ({  message }) => {
-  if (message === null) {
+  const errorMessage = useSelector(state => state.errorMessage)
+
+  if (errorMessage === null) {
     return null
   }
 
   return (
     <div className="errorMessage">
-      {message}
+      {errorMessage}
     </div>
   )
 }
