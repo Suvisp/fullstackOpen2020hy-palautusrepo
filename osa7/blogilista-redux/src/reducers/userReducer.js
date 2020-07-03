@@ -19,7 +19,7 @@ const userReducer = (state = { user: '', allUsers: [] }, action) => {
   case 'LOGOUT':
     window.localStorage.clear()
     return { ...state, user: '' }
-  case 'GET_ALL_USERS':
+  case 'ALL_USERS':
     return { ...state, allUsers: action.data.allUsers }
   default:
     return state

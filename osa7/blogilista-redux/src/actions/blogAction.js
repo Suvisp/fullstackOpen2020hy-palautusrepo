@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 import blogService from '../services/blogs'
 
-export const initializeBlogs = () => {
+export const getAllBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
     dispatch({

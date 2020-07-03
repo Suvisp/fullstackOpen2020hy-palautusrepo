@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 
 import { addLikes, deleteBlog } from '../actions/blogAction'
 import { createNotificationOfLike, createNotificationOfDelete, hideNotification } from '../actions/notificationAction'
+import { getAllBlogs } from '../actions/blogAction'
+
+import { Button } from 'react-bootstrap'
 
 
 const BlogInfo = (props) => {
@@ -11,8 +14,9 @@ const BlogInfo = (props) => {
   const username = blog.user.username
   const userLoggedIn = props.user.username
 
-  console.log('user.username', props.user.username)
+  // console.log('user.username', props.user.username)
 
+//ainoastaan blogin lisännyt käyttäjä voi poistaa blogin
   const removeVisibility = { display: userLoggedIn === username ? '' : 'none' }
 
   const handleLike = (blog) => {
@@ -21,6 +25,8 @@ const BlogInfo = (props) => {
     setTimeout(() => {
       props.hideNotification()
     }, 5000)
+    //päivitä blogit (ja blogien liketys)
+    props.getAllBlogs()
   }
 
   const handleDelete = (blog) => {
@@ -33,14 +39,14 @@ const BlogInfo = (props) => {
 
   return (
     <div>
-      <h2>{blog.title} - {blog.author}</h2>
-      <div>{blog.url}</div>
+      <h5>{blog.title} - {blog.author}</h5>
+      <a href={blog.url}>{blog.url}</a>
       <div>
         {blog.likes} likes
-        <button onClick={() => handleLike(blog)}>like</button>
+        <Button variant="primary"  onClick={() => handleLike(blog)}>like</Button>
       </div>
       <div>added by {username}</div>
-      <button style={removeVisibility} onClick={() => handleDelete(blog)}>remove</button>
+      <Button variant="danger" style={removeVisibility} onClick={() => handleDelete(blog)}>remove</Button>
     </div>
   )
 }
@@ -56,7 +62,8 @@ const mapDispatchToProps = {
   deleteBlog,
   createNotificationOfLike,
   createNotificationOfDelete,
-  hideNotification
+  hideNotification,
+  getAllBlogs
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogInfo)
