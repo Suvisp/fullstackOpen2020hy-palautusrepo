@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import './App.css'
 
 import Notification from './components/Notification'
@@ -13,22 +13,20 @@ import UserList from './components/UserList'
 import User from './components/User'
 import Navigation from './components/Navigation'
 
-import { initializeBlogs } from './actions/blogAction'
+import { getAllBlogs } from './actions/blogAction'
 import { loggedUser, getAllUsers } from './actions/userAction'
 
 
 const App = (props) => {
 
   useEffect(() => {
-    props.initializeBlogs()
-  }, [])
-
-  useEffect(() => {
+    props.getAllBlogs()
     props.loggedUser()
   }, [])
 
   useEffect(() => {
     props.getAllUsers()
+    //props.blogs päivittää käyttäjien listalle uudet lisätyt blogit
   }, [props.blogs])
 
   const userById = (id) => {
@@ -37,34 +35,38 @@ const App = (props) => {
 
   const blogById = (id) => {
     return props.blogs.find(blog => blog.id === id)
-}
+  }
 
   return (
-    <div>
+    <div className="container">
       <Router>
         <Navigation />
         <Notification/>
         <ErrorMessage />
-        <Route path="/login">
-          <LoginForm />
-        </Route>
-        <Route path="/createnew">
-          <BlogForm />
-        </Route>
-        <Route path="/users">
-          <UserList />
-        </Route>
-        <Route exact path='/users/:id' render={({ match }) =>
-          <User user={userById(match.params.id)} />
-        } />
-        <Route exact path='/blogs/:id' render={({ match }) =>
-          blogById(match.params.id) ?
-            <BlogInfo blog={blogById(match.params.id)} />
-            : <Redirect to="/blogs" />
-        } />
-        <Route path="/blogs">
-          <BlogList />
-        </Route>
+        <Switch>
+          <Route path="/login">
+            <LoginForm />
+          </Route>
+          <Route path="/createnew">
+            <BlogForm />
+          </Route>
+          <Route exact path='/users/:id' render={({ match }) =>
+            userById(match.params.id) ?
+              <User user={userById(match.params.id)} />
+              : <Redirect to="/users" />
+          } />
+          <Route path="/users">
+            <UserList />
+          </Route>
+          <Route exact path='/blogs/:id' render={({ match }) =>
+            blogById(match.params.id) ?
+              <BlogInfo blog={blogById(match.params.id)} />
+              : <Redirect to="/blogs" />
+          } />
+          <Route path="/blogs">
+            <BlogList />
+          </Route>
+        </Switch>
       </Router>
     </div>
   )
@@ -79,7 +81,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  initializeBlogs,
+  getAllBlogs,
   loggedUser,
   getAllUsers
 }

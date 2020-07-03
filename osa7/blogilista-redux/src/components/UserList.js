@@ -2,6 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { Table } from 'react-bootstrap'
+
+
 const UsersList = (props) => {
   const numberOfBlogsByUser = (user) => {
     return user.blogs.length
@@ -9,11 +12,11 @@ const UsersList = (props) => {
 
   return (
     <div>
-      <table>
+      <Table striped bordered>
         <thead>
           <tr>
             <th>Users</th>
-            <th>blogs created</th>
+            <th>Blogs created</th>
           </tr>
         </thead>
         <tbody>
@@ -28,14 +31,14 @@ const UsersList = (props) => {
             </tr>
           )}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users.allUsers
+    users: state.users.allUsers,
   }
 }
 

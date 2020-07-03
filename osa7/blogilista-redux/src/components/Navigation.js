@@ -1,23 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink, Redirect } from 'react-router-dom'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
-import NavbarBrand from 'react-bootstrap/NavbarBrand'
-import Button from 'react-bootstrap/Button'
 
-import { logout } from '../actions/userAction'
+import { onLogout } from '../actions/userAction'
+
+import { Navbar, NavbarBrand, Nav, Button } from 'react-bootstrap'
 
 
 const Navigation = (props) => {
   const padding = { paddingRight: 5 }
 
   const handleLogout = () => {
-    props.logout()
+    props.onLogout()
   }
 
   return (
     <Navbar fixed='top' expand='sm' collapseOnSelect bg='dark' variant='dark'>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <NavbarBrand>B L O G S - A P P</NavbarBrand>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
@@ -29,7 +28,7 @@ const Navigation = (props) => {
           </Navbar.Text>
           {props.user
             ?<Navbar.Text>
-              {props.user.name} logged in {'  '}
+              <em>{props.user.name} logged in {'  '}</em>
               <Button style={padding} variant="danger" size='sm' onClick={handleLogout}>
                   Logout
               </Button>
@@ -52,7 +51,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  logout,
+  onLogout,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

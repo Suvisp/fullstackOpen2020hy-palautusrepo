@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { Table } from 'react-bootstrap'
+
 
 const User = (props) => {
   if (props.user === undefined) {
@@ -10,11 +12,18 @@ const User = (props) => {
   const name = props.user.name
   return (
     <div>
-      <h2>{name}</h2>
-      <h4>blogs added</h4>
-      {blogs.map(blog =>
-        <div key={blog.id}>
-          {blog.title}</div>)}
+      <h5>{name}</h5>
+      <Table striped bordered>
+        <thead>
+          <tr>
+            <th>added blogs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {blogs.map(blog =>
+            <tr key={blog.id}><td>{blog.title}</td></tr>)}
+        </tbody>
+      </Table>
     </div>
   )
 }

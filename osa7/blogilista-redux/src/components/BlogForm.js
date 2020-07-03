@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
+
+import Togglable from './Togglable'
 import { createBlog } from '../actions/blogAction'
 import { createNotificationOfNew, hideNotification } from '../actions/notificationAction'
 
-import Togglable from './Togglable'
+
+import { Form, Button } from 'react-bootstrap'
 
 
 const BlogForm = (props) => {
@@ -32,33 +35,30 @@ const BlogForm = (props) => {
   return (
     <div>
       <Togglable buttonLabel="create new" ref={blogFormRef}>
-        <h2>Create a new blog</h2>
-        <form onSubmit={addBlog}>
-          <div>
-          title:
-            <input
+        <h4>Create a new blog</h4>
+        <Form onSubmit={addBlog}>
+          <Form.Group>
+            <Form.Label>title</Form.Label>
+            <Form.Control
               id='title'
               type='title'
               name='title'
             />
-          </div>
-          <div>
-          author:
-            <input
+            <Form.Label>author</Form.Label>
+            <Form.Control
               id='author'
               type='author'
               name='author'
             />
-          </div>
-          <div>
-          url:
-            <input
+            <Form.Label>url</Form.Label>
+            <Form.Control
               id='url'
+              type='url'
               name='url'
             />
-          </div>
-          <button type='submit'>save</button>
-        </form>
+            <Button variant="primary" type="submit">save</Button>
+          </Form.Group>
+        </Form>
       </Togglable>
     </div >
   )

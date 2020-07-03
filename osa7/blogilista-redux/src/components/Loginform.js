@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import loginService from '../services/login'
 import { createErrorMessage, hideErrorMessage } from '../actions/errorAction'
-import { login } from '../actions/userAction'
+import { onLogin } from '../actions/userAction'
+
+import { Form, Button } from 'react-bootstrap'
 
 
 const LoginForm = (props) => {
+  const history = useHistory()
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -17,9 +22,10 @@ const LoginForm = (props) => {
         username, password,
       })
 
-      props.login(user)
+      props.onLogin(user)
       setUsername('')
       setPassword('')
+      history.push('/blogs')
     } catch (exception) {
       props.createErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -38,30 +44,28 @@ const LoginForm = (props) => {
 
   return (
     <div>
-      <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <h4>Log in to application</h4>
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username</Form.Label>
+          <Form.Control
             id='username'
             name='username'
             type='username'
             value={username}
             onChange={handleUsernameChange}
           />
-        </div>
-        <div>
-          password
-          <input
+          <Form.Label>password</Form.Label>
+          <Form.Control
             id='password'
             name='password'
             type='password'
             value={password}
             onChange={handlePasswordChange}
           />
-        </div>
-        <button id='login-button' type='submit'>login</button>
-      </form>
+          <Button variant="primary" id='login-button' type='submit'>login</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }
@@ -69,7 +73,7 @@ const LoginForm = (props) => {
 const mapDispatchToProps = {
   createErrorMessage,
   hideErrorMessage,
-  login
+  onLogin
 }
 
 export default connect(null, mapDispatchToProps)(LoginForm)

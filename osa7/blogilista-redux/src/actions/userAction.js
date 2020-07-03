@@ -6,14 +6,14 @@ export const loggedUser = () => {
   }
 }
 
-export const login = (user) => {
+export const onLogin = (user) => {
   return {
     type: 'LOGIN',
     data: user
   }
 }
 
-export const logout = () => {
+export const onLogout = () => {
   return {
     type: 'LOGOUT'
   }
@@ -23,7 +23,7 @@ export const getAllUsers = () => {
   return async dispatch => {
     const users = await usersService.getAll()
     dispatch ({
-      type: 'GET_ALL_USERS',
+      type: 'ALL_USERS',
       data: { allUsers: users }
     })
   }
