@@ -1,5 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server')
 
+const { v1: uuid } = require('uuid');
+
 let authors = [
     {
         name: 'Robert Martin',
@@ -101,24 +103,52 @@ type Book {
 type Query {
     bookCount: Int!
     authorCount: Int!
-    allBooks(author:String, genre: [String]): [Book!]!
+    allBooks(author:String, genres: [String]): [Book!]!
     allAuthors: [Author!]!
-}
+},
+type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String]
+    ): Book
+    addAuthor(
+        name: String!
+        born: Int
+      ): Author
+    }
 `
 //resolverit määrittelee MITEN GraphQL-kyselyhin vastataan
 const resolvers = {
     Query: {
         bookCount: () => books.length,
         authorCount: () => authors.length,
-        allBooks: (root, args) => 
-        books.filter(b => b.author === args.author 
-            || b.genres.includes(args.genre)),
+        allBooks: (root, args) =>
+            books.filter(b => b.author === args.author
+                || b.genres.includes(args.genre)),
         allAuthors: () => {
             authors.map(a => {
                 let authorsBooks = books.filter(book => book.author === a.name)
                 a.bookCount = authorsBooks.length
             })
             return authors
+        }
+    },
+    Mutation: {
+        addBook: (root, args) => {
+            if (authors.find(a => a.name !== args.author)) {
+                const author = { name: args.author, id: uuid() }
+                authors = authors.concat(author)
+            }
+            const book = { ...args, id: uuid() }
+            books = books.concat(book)
+            return book
+        },
+        addAuthor: (root, args) => {
+            const author = { ...args, id: uuid() }
+            authors = authors.concat(author)
+            return author
         }
     }
 }
