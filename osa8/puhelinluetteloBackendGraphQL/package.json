@@ -1,0 +1,21 @@
+{
+  "name": "puhelinluettelobackendgraphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "graphql"
+  ],
+  "author": "suvi partanen",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.15.1",
+    "graphql": "^15.2.0",
+    "nodemon": "^2.0.4",
+    "uuid": "^8.2.0"
+  }
+}
