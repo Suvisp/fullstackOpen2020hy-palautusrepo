@@ -91,8 +91,8 @@ type Book {
     title: String!
     published: Int
     author: String!
-    id: ID!
     genres: [String]
+    id: ID!
   }
   type Author {
     name: String!
@@ -108,11 +108,11 @@ type Query {
 },
 type Mutation {
     addBook(
-      title: String!
-      author: String!
-      published: Int!
-      genres: [String]
-    ): Book
+        title: String!
+        author: String!
+        published: Int!
+        genres: [String!]!
+      ): Book
     addAuthor(
         name: String!
         born: Int
@@ -127,13 +127,13 @@ const resolvers = {
         allBooks: (root, args) => {
             let allBooks = books
             if (args.author) {
-              allBooks = allBooks.filter(b => b.author === args.author)
+                allBooks = allBooks.filter(b => b.author === args.author)
             }
             if (args.genre) {
-              allBooks = allBooks.filter(b => b.genres.includes(args.genre))
+                allBooks = allBooks.filter(b => b.genres.includes(args.genre))
             }
             return allBooks
-          },
+        },
         // allBooks: (root, args) =>
         //     books.filter(b => b.author === args.author
         //         || b.genres.includes(args.genre)),
