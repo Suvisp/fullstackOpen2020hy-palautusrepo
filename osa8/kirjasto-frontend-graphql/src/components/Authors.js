@@ -10,7 +10,7 @@ const Authors = (props) => {
         return null
     }
 
-    else if (result.loading) {
+    if (result.loading) {
         return <div>loading...</div>
       }
     
