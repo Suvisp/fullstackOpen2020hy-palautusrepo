@@ -4,21 +4,10 @@ import { useApolloClient, useSubscription } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import Notify from './components/Notify'
 import LoginForm from './components/LoginForm'
 import { ALL_BOOKS, BOOK_ADDED } from './queries'
 
-
-const Notify = ({ errorMessage }) => {
-  if (!errorMessage) {
-    return null
-  }
-
-  return (
-    <div style={{ color: 'red' }}>
-      {errorMessage}
-    </div>
-  )
-}
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("library-user-token"))
@@ -43,6 +32,7 @@ const App = () => {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded
       notify(`${addedBook.title} added`)
+      window.alert(`${addedBook.title} added`)
       updateCacheWith(addedBook)
     }
   })
@@ -72,7 +62,6 @@ const App = () => {
       </div>
     )
   }
-
 
   return (
     <div>
