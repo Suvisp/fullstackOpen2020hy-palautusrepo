@@ -63,7 +63,6 @@ const typeDefs = gql`
       published: Int!
       genres: [String!]!
     ): Book
-    editAuthor(name: String!, setBornTo: Int!): Author
     createUser(username: String!, favoriteGenre: String!): User
     login(username: String!, password: String!): Token
   }
@@ -138,29 +137,6 @@ const resolvers = {
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
       return book
-    },
-    editAuthor: async (root, args, context) => {
-      const currentUser = context.currentUser
-      if (!currentUser) {
-        throw new AuthenticationError("not authenticated")
-      }
-      
-      const author = await Author.findOne({ name: args.name })
-
-      if (!author) {
-        return null
-      }
-
-      author.born = args.setBornTo
-
-      try {
-        await author.save()
-      } catch (error) {
-        throw new UserInputError(error.message, {
-          invalidArgs: args,
-        })
-      }
-      return author
     },
     createUser: (root, args) => {
       const user = new User({
