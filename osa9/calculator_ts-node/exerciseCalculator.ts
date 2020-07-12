@@ -8,7 +8,9 @@ interface ResultValues {
   average: number;
 }
 
-export const calculateExercises = (args: Array<number>, target: number): ResultValues => {
+export const calculateExercises = (target: number, args: Array<number>): ResultValues => {  
+  if (args.length === 0) throw new Error("No values provided");
+
   let periodLength = args.length;
   let trainingDays = args.filter((hours) => hours !== 0).length;
   let rating = 0;
@@ -40,4 +42,14 @@ export const calculateExercises = (args: Array<number>, target: number): ResultV
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+// console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+
+let target: number = Number(process.argv[2]);
+const arrayOfHours = process.argv.slice(3).map((hour) => Number(hour))
+// console.log(calculateExercises(target, arrayOfHours))
+
+try {
+  console.log(calculateExercises(target, arrayOfHours))
+} catch (error) {
+  console.log('Something went wrong, error message: ', error.message);
+}
