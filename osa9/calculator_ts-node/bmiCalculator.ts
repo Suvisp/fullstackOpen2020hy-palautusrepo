@@ -1,6 +1,6 @@
 type Result = string;
 
-const bmiCalculator = (height: number, weight: number): Result => {
+export const bmiCalculator = (height: number, weight: number): Result => {
   if (!height || !weight) throw new Error("No values provided");
 
   height = height / 100;
@@ -27,12 +27,12 @@ const bmiCalculator = (height: number, weight: number): Result => {
 
 // console.log(bmiCalculator(180, 74))
 
-let height: number = Number(process.argv[2]);
-let weight: number = Number(process.argv[3]);
+// let height: number = Number(process.argv[2]);
+// let weight: number = Number(process.argv[3]);
 // console.log(bmiCalculator(height, weight))
 
-try {
-  console.log(bmiCalculator(height, weight))
-} catch (error) {
-  console.log('Something went wrong, error message: ', error.message);
-}
+// try {
+//   console.log(bmiCalculator(height, weight))
+// } catch (error) {
+//   console.log('Something went wrong, error message: ', error.message);
+// }
