@@ -44,12 +44,12 @@ export const calculateExercises = (target: number, args: Array<number>): ResultV
 
 // console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
 
-let target: number = Number(process.argv[2]);
-const arrayOfHours = process.argv.slice(3).map((hour) => Number(hour))
+// let target: number = Number(process.argv[2]);
+// const arrayOfHours = process.argv.slice(3).map((hour) => Number(hour))
 // console.log(calculateExercises(target, arrayOfHours))
 
-try {
-  console.log(calculateExercises(target, arrayOfHours))
-} catch (error) {
-  console.log('Something went wrong, error message: ', error.message);
-}
+// try {
+//   console.log(calculateExercises(target, arrayOfHours))
+// } catch (error) {
+//   console.log('Something went wrong, error message: ', error.message);
+// }
