@@ -31,7 +31,6 @@ app.post('/exercises', (req, res) => {
     res.send({ error: "parameters missing" })
   }
   if (!(daily_exercises instanceof Array) || !(typeof target === 'number')) {
-  // else if ( isNaN(daily_exercises) || isNaN(target)) {
     res.send({ error: "malformatted parameters" })
   }
 
