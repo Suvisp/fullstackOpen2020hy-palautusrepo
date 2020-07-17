@@ -1,14 +1,14 @@
-// import express from 'express';
-// import patientService from '../services/patientService';
+import express from 'express';
+import patientService from '../services/patientService';
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.get('/', (_req, res) => {
-//     res.send(patientService);
-// });
+router.get('/', (_req, res) => {
+    res.send(patientService.getNonSensitiveEntries());
+});
 
-// router.post('/', (_req, res) => {
-//   res.send('Saving a patient');
-// });
+router.post('/', (_req, res) => {
+  res.send('Saving a patient');
+});
 
-// export default router;
+export default router;
