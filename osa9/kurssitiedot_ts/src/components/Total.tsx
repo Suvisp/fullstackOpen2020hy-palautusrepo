@@ -1,19 +1,12 @@
 import React from "react"
+import { CoursePart } from "../types"
 
-interface Course {
-  name: string;
-  exerciseCount: number;
-}
 
-interface CourseProps {
-  allCourses: Course[];
-}
-
-const Total = (props: CourseProps) => {
+const Total: React.FC<{ allParts: CoursePart[] }> = ({ allParts }) => {
   return (
     <p>
       Number of exercises{" "}
-      {props.allCourses.reduce((carry, part) => carry + part.exerciseCount, 0)}
+      {allParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
     </p>
   )
 }

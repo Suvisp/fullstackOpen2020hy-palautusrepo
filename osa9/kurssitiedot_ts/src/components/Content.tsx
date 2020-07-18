@@ -1,22 +1,14 @@
 /* eslint-disable react/jsx-key */
 import React from "react"
+import { CoursePart } from "../types"
+import Part from "./Part"
 
-interface Course {
-  name: string;
-  exerciseCount: number;
-}
 
-interface CoursesProps {
-  allCourses: Course[];
-}
-
-const Content = (props: CoursesProps) => {
+const Content: React.FC<{ allParts: CoursePart[] }> = ({ allParts }) => {
   return (
     <div>
-      {props.allCourses.map((course) => (
-        <p>
-          {course.name} {course.exerciseCount}
-        </p>
+      {allParts.map((part) => (
+        <Part key={part.name} part={part} />
       ))}
     </div>
   )
