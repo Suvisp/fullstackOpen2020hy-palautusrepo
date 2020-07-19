@@ -1,12 +1,17 @@
 import { v4 as uuidv4 } from "uuid";
 import patients from '../../data/patients';
-import { PatientEntry, NonSensitivePatientEntry, NewPatientEntry } from '../types';
+import { Patient, PublicPatient, NewPatient } from '../types';
 
-const getPatients = (): Array<PatientEntry> => {
+const getPatients = (): Array<Patient> => {
     return patients;
 };
 
-const getNonSensitiveEntries = (): NonSensitivePatientEntry[] => {
+const getPatientById = (id: string): Patient => {
+    const patientById = patients.filter((patient) => patient.id === id)[0];
+    return patientById;
+};
+
+const getPublicPatients = (): PublicPatient[] => {
     return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
         id,
         name,
@@ -16,18 +21,19 @@ const getNonSensitiveEntries = (): NonSensitivePatientEntry[] => {
     }));
 };
 
-const addPatient = (entry: NewPatientEntry): PatientEntry => {
-    const newPatientEntry = {
+const addPatient = (entry: NewPatient): Patient => {
+    const newPatient = {
         id: uuidv4(),
         ...entry,
     };
 
-    patients.push(newPatientEntry);
-    return newPatientEntry;
+    patients.push(newPatient);
+    return newPatient;
 };
 
 export default {
     getPatients,
-    getNonSensitiveEntries,
+    getPatientById,
+    getPublicPatients,
     addPatient
 };
